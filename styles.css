@@ -1,0 +1,153 @@
+:root {
+  --bg: #f8f6f1;          /* cream, matches portfolio background */
+  --fg: #1d1f24;          /* charcoal */
+  --muted: #646a75;
+  --card: #ffffff;
+  --border: #e2ded6;
+  --primary: #1f4f8f;     /* portfolio blue */
+  --primary-fg: #f7f9fc;
+  --accent: #e6ecf6;
+  --shadow: 0 1px 2px rgba(20, 22, 28, .04), 0 6px 20px rgba(20, 22, 28, .05);
+  --radius: 14px;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --display: "Space Grotesk", var(--sans);
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16181d;
+    --fg: #ecebe6;
+    --muted: #9aa0ab;
+    --card: #1e2128;
+    --border: #2c3039;
+    --primary: #7fa8e6;
+    --primary-fg: #10131a;
+    --accent: #232a36;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 16px/1.55 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 40px 20px 28px;
+}
+
+.head { display: flex; align-items: center; gap: 14px; }
+.mark {
+  flex: none;
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  background: var(--fg);
+  color: var(--bg);
+  font: 700 18px/1 var(--display);
+  letter-spacing: .02em;
+}
+h1 {
+  margin: 0;
+  font: 700 clamp(26px, 5vw, 34px)/1.1 var(--display);
+  letter-spacing: -.01em;
+}
+.org {
+  margin: 4px 0 0;
+  font: 500 12px/1.3 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+}
+
+.lede {
+  margin: 22px 0 10px;
+  font-size: clamp(17px, 2.6vw, 20px);
+  max-width: 46ch;
+}
+
+.meta {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex; flex-wrap: wrap;
+  gap: 6px 18px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.meta li { display: inline-flex; align-items: center; gap: 8px; }
+.meta a { text-decoration: none; border-bottom: 1px solid var(--border); }
+.meta a:hover, .meta a:focus-visible { color: var(--fg); border-color: var(--fg); }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: #3aa76d; }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 620px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+.card {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 18px 18px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  min-width: 0;
+}
+.card:hover, .card:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: 0 2px 4px rgba(20, 22, 28, .05), 0 12px 28px rgba(20, 22, 28, .08);
+  outline: none;
+}
+.label {
+  font: 400 11.5px/1.3 var(--mono);
+  color: var(--muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.title {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  font: 600 18px/1.25 var(--display);
+}
+.arrow { color: var(--muted); font-size: 15px; transition: color .15s ease, transform .15s ease; }
+.card:hover .arrow, .card:focus-visible .arrow { color: var(--primary); transform: translate(2px, -2px); }
+.desc { font-size: 14.5px; color: var(--muted); }
+
+.card--primary { border-color: color-mix(in oklab, var(--primary) 35%, var(--border)); }
+.card--cta {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-fg);
+}
+.card--cta .label, .card--cta .desc, .card--cta .arrow { color: color-mix(in oklab, var(--primary-fg) 78%, transparent); }
+.card--cta:hover, .card--cta:focus-visible { border-color: var(--fg); }
+.card--cta:hover .arrow { color: var(--primary-fg); }
+
+.foot {
+  margin-top: 28px;
+  font: 400 12px/1.4 var(--mono);
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .arrow { transition: none; }
+  .card:hover { transform: none; }
+}
+
+/* Book-a-call spans the full row so the grid never ends on an orphan card */
+@media (min-width: 620px) { .card--cta { grid-column: 1 / -1; } }
