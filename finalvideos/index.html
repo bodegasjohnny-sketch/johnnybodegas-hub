@@ -35,6 +35,7 @@
     .vtitle { margin: 2px 0 0; font: 600 18px/1.25 var(--display); }
     .vmeta { font: 400 12px/1.4 var(--mono); color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 12px; }
     .vmeta a { color: inherit; }
+    .vcredit { margin: 0; font: 500 12px/1.4 var(--mono); color: var(--fg); }
     .vcap { margin: 0; font-size: 14.5px; color: var(--muted); white-space: pre-line; }
     .plats { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
     .plat { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 13.5px; }
@@ -142,6 +143,7 @@
       open.target = "_blank"; open.rel = "noopener noreferrer";
       meta.appendChild(open);
       c.appendChild(meta);
+      if (v.credit) c.appendChild(el("p", "vcredit", v.credit));
       if (v.caption) c.appendChild(el("p", "vcap", v.caption));
 
       var plats = el("div", "plats");

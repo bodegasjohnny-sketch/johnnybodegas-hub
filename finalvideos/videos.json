@@ -4,6 +4,27 @@
   "driveFolder": "https://drive.google.com/drive/folders/1g-uDeqdmUFA2pNkKkVCufRlw1HNqtKNX",
   "videos": [
     {
+      "id": "tesla-roadster-nothing-catches-it",
+      "title": "Tesla Roadster: Nothing Catches It",
+      "date": "2026-10-17",
+      "duration": "0:45",
+      "format": "9:16",
+      "driveId": "1bEgu2yGb_Ixb3B8AKyClMfk3bcdY2y15",
+      "caption": "Stuck in traffic? Not anymore. 🚀\n\nGridlock, a police chase, even a hurricane… nothing catches it. 💨 No fire, just cold compressed-air thrusters lifting the Roadster over everything in its way.\n\nWould you drive it? 👇\nComment where you'd fly first, and tag the friend who'd ride shotgun.\n\n#Tesla #Roadster #SpaceX #NothingCatchesIt #Cars #EV #fyp",
+      "credit": "Made by Video Pipeline Architect · AI-generated, features Johnny",
+      "platforms": {
+        "facebook": {
+          "posted": false
+        },
+        "tiktok": {
+          "posted": false
+        },
+        "youtube": {
+          "posted": false
+        }
+      }
+    },
+    {
       "id": "tesla-roadster",
       "title": "Tesla Roadster: It Drove Upside Down",
       "date": "2026-10-17",
@@ -12,14 +33,31 @@
       "driveId": "1CL4iWqsYGJQuCwdMnFzjT9xKBghixqnq",
       "caption": "It drove UPSIDE DOWN... then it lifted off the ground. Tesla's new Roadster doesn't use fire. Fans suck it to the road, and SpaceX cold-gas thrusters blast pure compressed air to launch it. Tesla claims 0–60 in 0.81 seconds. #Tesla #Roadster #SpaceX #Engineering",
       "platforms": {
-        "facebook": { "posted": true, "links": [
-          { "label": "Johnny Bodegas Page", "url": "https://www.facebook.com/reel/39254883667488423" },
-          { "label": "JCB Gas Station Page", "url": "https://www.facebook.com/reel/2389445591869162" }
-        ] },
-        "tiktok": { "posted": true, "links": [
-          { "label": "@mcjorskey", "url": "https://www.tiktok.com/@mcjorskey/video/7697468074450095366" }
-        ] },
-        "youtube": { "posted": false }
+        "facebook": {
+          "posted": true,
+          "links": [
+            {
+              "label": "Johnny Bodegas Page",
+              "url": "https://www.facebook.com/reel/39254883667488423"
+            },
+            {
+              "label": "JCB Gas Station Page",
+              "url": "https://www.facebook.com/reel/2389445591869162"
+            }
+          ]
+        },
+        "tiktok": {
+          "posted": true,
+          "links": [
+            {
+              "label": "@mcjorskey",
+              "url": "https://www.tiktok.com/@mcjorskey/video/7697468074450095366"
+            }
+          ]
+        },
+        "youtube": {
+          "posted": false
+        }
       }
     },
     {
@@ -31,11 +69,22 @@
       "driveId": "1uoSqj2t98NeehQU-W2K3SCsQ0_GuRH8q",
       "caption": "Running low on fuel in Region 12? JCB Gas Station delivers diesel and gasoline straight from the depot in GenSan to your station, farm or site. Book a full 14,000 L tanker or just a compartment. Message us or book at jcbgas-station.com #JCBGasStation #FuelDelivery #GenSan #Region12",
       "platforms": {
-        "facebook": { "posted": false, "note": "Not confirmed on the JCB Gas Station Page" },
-        "tiktok": { "posted": true, "links": [
-          { "label": "@mcjorskey", "url": "https://www.tiktok.com/@mcjorskey/video/7697468093114748161" }
-        ] },
-        "youtube": { "posted": false }
+        "facebook": {
+          "posted": false,
+          "note": "Not confirmed on the JCB Gas Station Page"
+        },
+        "tiktok": {
+          "posted": true,
+          "links": [
+            {
+              "label": "@mcjorskey",
+              "url": "https://www.tiktok.com/@mcjorskey/video/7697468093114748161"
+            }
+          ]
+        },
+        "youtube": {
+          "posted": false
+        }
       }
     },
     {
@@ -47,11 +96,21 @@
       "driveId": "1KnVd2yOzxZ0t8gpMsytAaasoaNLpky3s",
       "caption": "If it's not God's time, you can't force it. If it's God's time, you can't stop it.",
       "platforms": {
-        "facebook": { "posted": true, "links": [
-          { "label": "Johnny Bodegas Page (reels)", "url": "https://www.facebook.com/johnnycbodegas/reels/" }
-        ] },
-        "tiktok": { "posted": false },
-        "youtube": { "posted": false }
+        "facebook": {
+          "posted": true,
+          "links": [
+            {
+              "label": "Johnny Bodegas Page (reels)",
+              "url": "https://www.facebook.com/johnnycbodegas/reels/"
+            }
+          ]
+        },
+        "tiktok": {
+          "posted": false
+        },
+        "youtube": {
+          "posted": false
+        }
       }
     }
   ]
