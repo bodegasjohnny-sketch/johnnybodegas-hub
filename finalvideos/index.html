@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Final Videos · Johnny Bodegas</title>
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="googlebot" content="noindex, nofollow" />
+  <meta name="description" content="Approved final videos and where they are posted." />
+  <meta name="theme-color" content="#f8f6f1" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#16181d" media="(prefers-color-scheme: dark)" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .wrap { max-width: 1120px; }
+    .head a { text-decoration: none; }
+    .vgrid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 680px) { .vgrid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1000px) { .vgrid { grid-template-columns: repeat(3, 1fr); } }
+    .vcard {
+      display: flex; flex-direction: column; gap: 10px;
+      padding: 14px 14px 18px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow); min-width: 0;
+    }
+    .player {
+      position: relative; width: 100%; aspect-ratio: 9 / 16; max-height: 640px;
+      border-radius: 10px; overflow: hidden; background: #0d0f13;
+    }
+    .player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .vtitle { margin: 2px 0 0; font: 600 18px/1.25 var(--display); }
+    .vmeta { font: 400 12px/1.4 var(--mono); color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 12px; }
+    .vmeta a { color: inherit; }
+    .vcap { margin: 0; font-size: 14.5px; color: var(--muted); white-space: pre-line; }
+    .plats { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .plat { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 13.5px; }
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border);
+      font: 500 12px/1.4 var(--mono);
+    }
+    .tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+    .tag.on { border-color: color-mix(in oklab, #3aa76d 45%, var(--border)); }
+    .tag.on::before { background: #3aa76d; }
+    .tag.off { color: var(--muted); }
+    .plink { color: var(--primary); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--primary) 35%, transparent); }
+    .plink:hover, .plink:focus-visible { border-color: var(--primary); }
+    .note { font-size: 12.5px; color: var(--muted); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 11px; border-radius: 8px;
+      background: var(--primary); color: var(--primary-fg);
+      font: 600 12.5px/1.3 var(--sans); text-decoration: none;
+      border: 1px solid var(--primary);
+    }
+    .btn:hover, .btn:focus-visible { filter: brightness(1.08); outline: 2px solid color-mix(in oklab, var(--primary) 40%, transparent); outline-offset: 2px; }
+    .status { color: var(--muted); font-size: 14px; }
+    .help { font-size: 13px; color: var(--muted); margin: 0 0 22px; max-width: 70ch; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <a class="mark" href="/" aria-label="Johnny Bodegas home">JB</a>
+      <div>
+        <h1>Final Videos</h1>
+        <p class="org">Approved finals · posting status</p>
+      </div>
+    </header>
+
+    <p class="lede">Every approved final, playable in the browser, with where it is posted.</p>
+    <p class="help">“Post to …” opens a prefilled email to <a class="plink" href="mailto:info@johnnybodegas.com">info@johnnybodegas.com</a> asking for that video to be posted on that platform. <span id="folder"></span></p>
+
+    <section id="list" class="vgrid" aria-label="Videos" aria-live="polite">
+      <p class="status">Loading videos…</p>
+    </section>
+
+    <noscript><p class="status">This list needs JavaScript. The raw data is in <a class="plink" href="videos.json">videos.json</a>.</p></noscript>
+
+    <footer class="foot">
+      <span>© <span id="y">2026</span> Johnny Bodegas · JCBApps</span>
+      <span id="updated"></span>
+    </footer>
+  </main>
+  <script>
+  (function () {
+    var PLATFORMS = [["facebook", "Facebook"], ["tiktok", "TikTok"], ["youtube", "YouTube"]];
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    function el(tag, cls, text) {
+      var n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text != null) n.textContent = text;
+      return n;
+    }
+    function fmtDate(iso) {
+      var p = (iso || "").split("-");
+      if (p.length !== 3) return iso || "";
+      var m = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+p[1] - 1];
+      return m + " " + (+p[2]) + ", " + p[0];
+    }
+    function mailto(email, v, label) {
+      var subject = "POST REQUEST: " + v.title + " to " + label;
+      var body = [
+        "Please post this video to " + label + ".",
+        "",
+        "Video: " + v.title,
+        "Date: " + v.date,
+        "Drive: https://drive.google.com/file/d/" + v.driveId + "/view",
+        "",
+        "Caption:",
+        v.caption || "",
+        "",
+        "Requested from " + location.href
+      ].join("\n");
+      return "mailto:" + email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    }
+    function card(v, email) {
+      var c = el("article", "vcard");
+      c.id = v.id;
+      var pl = el("div", "player");
+      var f = document.createElement("iframe");
+      f.src = "https://drive.google.com/file/d/" + encodeURIComponent(v.driveId) + "/preview";
+      f.title = v.title;
+      f.loading = "lazy";
+      f.allow = "autoplay; fullscreen";
+      f.setAttribute("allowfullscreen", "");
+      pl.appendChild(f);
+      c.appendChild(pl);
+
+      c.appendChild(el("h2", "vtitle", v.title));
+      var meta = el("div", "vmeta");
+      meta.appendChild(el("span", null, fmtDate(v.date)));
+      if (v.duration) meta.appendChild(el("span", null, v.duration));
+      if (v.format) meta.appendChild(el("span", null, v.format));
+      var open = el("a", null, "Open in Drive ↗");
+      open.href = "https://drive.google.com/file/d/" + v.driveId + "/view";
+      open.target = "_blank"; open.rel = "noopener noreferrer";
+      meta.appendChild(open);
+      c.appendChild(meta);
+      if (v.caption) c.appendChild(el("p", "vcap", v.caption));
+
+      var plats = el("div", "plats");
+      PLATFORMS.forEach(function (pp) {
+        var key = pp[0], label = pp[1];
+        var s = (v.platforms && v.platforms[key]) || { posted: false };
+        var row = el("div", "plat");
+        row.appendChild(el("span", "tag " + (s.posted ? "on" : "off"), label + (s.posted ? " · posted" : " · not posted")));
+        if (s.posted) {
+          (s.links || []).forEach(function (l) {
+            var a = el("a", "plink", l.label + " ↗");
+            a.href = l.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+            row.appendChild(a);
+          });
+        } else {
+          var b = el("a", "btn", "Post to " + label);
+          b.href = mailto(email, v, label);
+          row.appendChild(b);
+        }
+        if (s.note) row.appendChild(el("span", "note", s.note));
+        plats.appendChild(row);
+      });
+      c.appendChild(plats);
+      return c;
+    }
+
+    fetch("videos.json", { cache: "no-cache" })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (data) {
+        var list = document.getElementById("list");
+        list.textContent = "";
+        var email = data.requestEmail || "info@johnnybodegas.com";
+        (data.videos || []).forEach(function (v) { list.appendChild(card(v, email)); });
+        if (!(data.videos || []).length) list.appendChild(el("p", "status", "No videos yet."));
+        if (data.updated) document.getElementById("updated").textContent = " · updated " + fmtDate(data.updated);
+        if (data.driveFolder) {
+          var a = el("a", "plink", "Drive folder ↗");
+          a.href = data.driveFolder; a.target = "_blank"; a.rel = "noopener noreferrer";
+          document.getElementById("folder").appendChild(a);
+        }
+      })
+      .catch(function () {
+        var list = document.getElementById("list");
+        list.textContent = "";
+        list.appendChild(el("p", "status", "Couldn't load videos.json. Refresh to try again."));
+      });
+  })();
+  </script>
+</body>
+</html>
