@@ -47,18 +47,11 @@
     .tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
     .tag.on { border-color: color-mix(in oklab, #3aa76d 45%, var(--border)); }
     .tag.on::before { background: #3aa76d; }
-    .tag.off { color: var(--muted); }
+    .tag.off { color: var(--muted); background: transparent; }
+    a.tag { text-decoration: none; color: var(--fg); transition: border-color .15s ease, color .15s ease; }
+    a.tag:hover, a.tag:focus-visible { border-color: #3aa76d; color: var(--primary); outline: none; }
     .plink { color: var(--primary); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--primary) 35%, transparent); }
     .plink:hover, .plink:focus-visible { border-color: var(--primary); }
-    .note { font-size: 12.5px; color: var(--muted); }
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 5px 11px; border-radius: 8px;
-      background: var(--primary); color: var(--primary-fg);
-      font: 600 12.5px/1.3 var(--sans); text-decoration: none;
-      border: 1px solid var(--primary);
-    }
-    .btn:hover, .btn:focus-visible { filter: brightness(1.08); outline: 2px solid color-mix(in oklab, var(--primary) 40%, transparent); outline-offset: 2px; }
     .status { color: var(--muted); font-size: 14px; }
     .help { font-size: 13px; color: var(--muted); margin: 0 0 22px; max-width: 70ch; }
   </style>
@@ -74,7 +67,7 @@
     </header>
 
     <p class="lede">Every approved final, playable in the browser, with where it is posted.</p>
-    <p class="help">“Post to …” opens a prefilled email to <a class="plink" href="mailto:info@johnnybodegas.com">info@johnnybodegas.com</a> asking for that video to be posted on that platform. <span id="folder"></span></p>
+    <p class="help"><span id="folder"></span></p>
 
     <section id="list" class="vgrid" aria-label="Videos" aria-live="polite">
       <p class="status">Loading videos…</p>
@@ -104,23 +97,7 @@
       var m = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+p[1] - 1];
       return m + " " + (+p[2]) + ", " + p[0];
     }
-    function mailto(email, v, label) {
-      var subject = "POST REQUEST: " + v.title + " to " + label;
-      var body = [
-        "Please post this video to " + label + ".",
-        "",
-        "Video: " + v.title,
-        "Date: " + v.date,
-        "Drive: https://drive.google.com/file/d/" + v.driveId + "/view",
-        "",
-        "Caption:",
-        v.caption || "",
-        "",
-        "Requested from " + location.href
-      ].join("\n");
-      return "mailto:" + email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-    }
-    function card(v, email) {
+    function card(v) {
       var c = el("article", "vcard");
       c.id = v.id;
       var pl = el("div", "player");
@@ -151,19 +128,21 @@
         var key = pp[0], label = pp[1];
         var s = (v.platforms && v.platforms[key]) || { posted: false };
         var row = el("div", "plat");
-        row.appendChild(el("span", "tag " + (s.posted ? "on" : "off"), label + (s.posted ? " · posted" : " · not posted")));
-        if (s.posted) {
-          (s.links || []).forEach(function (l) {
-            var a = el("a", "plink", l.label + " ↗");
+        var links = s.posted ? (s.links || []) : [];
+        if (links.length) {
+          links.forEach(function (l) {
+            var a = el("a", "tag on", label + (links.length > 1 ? " · " + l.label : "") + " ↗");
             a.href = l.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+            a.title = "Posted on " + label + " (" + l.label + ")";
             row.appendChild(a);
           });
+        } else if (s.posted) {
+          row.appendChild(el("span", "tag on", label + " · Posted"));
         } else {
-          var b = el("a", "btn", "Post to " + label);
-          b.href = mailto(email, v, label);
-          row.appendChild(b);
+          var t = el("span", "tag off", label + " · Not posted");
+          if (s.note) t.title = s.note;
+          row.appendChild(t);
         }
-        if (s.note) row.appendChild(el("span", "note", s.note));
         plats.appendChild(row);
       });
       c.appendChild(plats);
@@ -175,8 +154,7 @@
       .then(function (data) {
         var list = document.getElementById("list");
         list.textContent = "";
-        var email = data.requestEmail || "info@johnnybodegas.com";
-        (data.videos || []).forEach(function (v) { list.appendChild(card(v, email)); });
+        (data.videos || []).forEach(function (v) { list.appendChild(card(v)); });
         if (!(data.videos || []).length) list.appendChild(el("p", "status", "No videos yet."));
         if (data.updated) document.getElementById("updated").textContent = " · updated " + fmtDate(data.updated);
         if (data.driveFolder) {

@@ -1,6 +1,5 @@
 {
   "updated": "2026-10-17",
-  "requestEmail": "info@johnnybodegas.com",
   "driveFolder": "https://drive.google.com/drive/folders/1g-uDeqdmUFA2pNkKkVCufRlw1HNqtKNX",
   "videos": [
     {
@@ -14,10 +13,22 @@
       "credit": "Made by Video Pipeline Architect · AI-generated, features Johnny",
       "platforms": {
         "facebook": {
-          "posted": false
+          "posted": true,
+          "links": [
+            {
+              "label": "Johnny Bodegas Page",
+              "url": "https://www.facebook.com/reel/1737074550717425/"
+            }
+          ]
         },
         "tiktok": {
-          "posted": false
+          "posted": true,
+          "links": [
+            {
+              "label": "@mcjorskey",
+              "url": "https://www.tiktok.com/@mcjorskey/video/7697510332893302022"
+            }
+          ]
         },
         "youtube": {
           "posted": false

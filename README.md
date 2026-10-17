@@ -12,7 +12,7 @@ It links out to Johnny Bodegas' live properties. The client portfolio stays on i
 | `styles.css` | Cream / charcoal theme matching the portfolio (Space Grotesk + IBM Plex), auto dark mode |
 | `favicon.svg` | "JB" mark |
 | `.nojekyll` | Serve files as-is on GitHub Pages |
-| `finalvideos/index.html` | Unlisted, `noindex` page at /finalvideos: approved final videos with Drive preview players, platform tags and "Post to" request buttons (prefilled email to info@) |
+| `finalvideos/index.html` | Unlisted, `noindex` page at /finalvideos: approved final videos with Drive preview players, and platform tags (posted = tag linking to the post, otherwise a muted "Not posted" tag) |
 | `finalvideos/videos.json` | The video list. Add/edit an entry (Drive file id, title, date, caption, per-platform `posted` + links) and commit; the page renders from this file |
 
 To edit a card, change its `<a class="card">` block in `index.html`. Commit to `main`; Pages redeploys in ~1 minute.
